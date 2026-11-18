@@ -1,0 +1,17 @@
+ID,Phase du jeu,Manche / Zone,Thème,Programme (tag),Type,Difficulté,Question,Bonne réponse,Mauvaise proposition 1,Mauvaise proposition 2,Mauvaise proposition 3,Média,Source,Statut,Réserve ?,Notes,Manche (auto)
+EX-0,Phase 1,Éclair,,WandaVision,Texte,Facile,Ligne d'exemple (doit être ignorée),A,B,C,D,,,Exemple,,,1
+D-01,Phase 1,Éclair,,WandaVision,Texte,Facile,Dans quelle ville se déroule la série WandaVision ?,Westview,Riverdale,Hawkins,Sokovie,,,Validée,,,1
+D-02,Phase 1,Éclair,,Shang-Chi,Texte,Facile,Quel acteur incarne Shang-Chi ?,Simu Liu,Ke Huy Quan,Daniel Dae Kim,Steven Yeun,,,Validée,,,1
+D-03,Phase 1,Éclair,,Loki,Texte,Facile,Quelle organisation surveille la chronologie dans la série Loki ?,La TVA,Le S.W.O.R.D.,Le S.H.I.E.L.D.,L'A.I.M.,,,Validée,,,1
+D-04,Phase 1,Identification,,Doctor Strange in the Multiverse of Madness,Image,Moyenne,Quel personnage apparaît sur cette image ?,America Chavez,Kate Bishop,Kamala Khan,Riri Williams,,,À faire,,Image à trouver,1
+D-05,Phase 1,Pointue,,Shang-Chi,Texte,Difficile,Quel est le vrai nom du chef des Dix Anneaux dans Shang-Chi ?,Xu Wenwu,Trevor Slattery,Razor Fist,Death Dealer,,,Validée,,,1
+D-06,Phase 1,Variante,,WandaVision,Texte,Moyenne,Quel personnage est au centre de WandaVision et de Doctor Strange in the Multiverse of Madness ?,Wanda Maximoff,Monica Rambeau,America Chavez,Agatha Harkness,,,Validée,,,1
+D-07,Phase 1,Éclair,,Ant-Man et la Guêpe : Quantumania,Texte,Facile,Quel méchant affronte Scott Lang dans Ant-Man et la Guêpe : Quantumania ?,Kang le Conquérant,Thanos,Ultron,Ego,,,Validée,,,2
+D-08,Phase 1,Éclair,,She-Hulk,Texte,Facile,Quel est le métier de Jennifer Walters dans She-Hulk ?,Avocate,Journaliste,Médecin,Policière,,,Validée,,,2
+D-09,Phase 1,Pointue,,Les Gardiens de la Galaxie Vol. 3,Texte,Difficile,"Dans Les Gardiens de la Galaxie Vol. 3, comment s'appelle la loutre amie de Rocket ?",Lylla,Teefs,Floor,Ruby,,,Validée,,,2
+D-10,Phase 1,Éclair,,Les 4 Fantastiques : Premiers Pas,Texte,Facile,Quel film ouvre la Phase 6 du MCU ?,Les 4 Fantastiques : Premiers Pas,Thunderbolts*,Captain America : Brave New World,Avengers : Doomsday,,,Validée,,,3
+D-11,Phase 1,Pointue,,Les 4 Fantastiques : Premiers Pas,Texte,Difficile,"Dans Les 4 Fantastiques : Premiers Pas, sur quelle Terre vivent les héros ?",Terre-828,Terre-616,Terre-838,Terre-199999,,,Validée,,,3
+D-12,Départage,Départage,,Avengers : Endgame,Texte,Facile,En quelle année Avengers : Endgame est-il sorti au cinéma ?,2019,2018,2020,2017,,,Validée,oui,,
+D-13,Phase 2,Grille,Loki,Loki,Texte,Moyenne,Comment s'appelle la variante de Loki que suit Loki dans la saison 1 ?,Sylvie,Hela,Sif,Ravonna,,,Validée,,,1
+D-14,Phase 2,Grille,Loki,Loki,Texte,Moyenne,Qui attend Loki et Sylvie au bout du temps dans la saison 1 ?,Celui qui demeure,Mobius,Miss Minutes,Ravonna Renslayer,,,Validée,,,1
+D-15,Phase 2,Grille,Loki,Loki,Texte,Moyenne,Quel est le nom de l'horloge animée mascotte de la TVA ?,Miss Minutes,Miss Seconde,Tic-Tac,Madame Heure,,,Validée,,,1

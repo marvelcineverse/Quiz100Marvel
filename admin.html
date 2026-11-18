@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Admin · Quiz du Multivers</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script type="module" src="js/admin.js"></script>
+</head>
+<body class="page-admin">
+
+  <!-- Connexion -->
+  <main id="ecran-connexion" class="centre">
+    <form id="form-connexion" class="carte carte-etroite">
+      <h1 class="logo">Quiz du <span>Multivers</span></h1>
+      <p class="discret">Espace admin</p>
+      <label>Code admin
+        <input type="password" id="code-admin" autocomplete="current-password" required autofocus>
+      </label>
+      <button type="submit" class="btn btn-principal">Entrer</button>
+      <p id="erreur-connexion" class="erreur" hidden></p>
+    </form>
+  </main>
+
+  <!-- Admin -->
+  <div id="ecran-admin" hidden>
+    <header class="barre">
+      <h1 class="logo petit">Quiz du <span>Multivers</span></h1>
+      <nav class="onglets" role="tablist">
+        <button class="onglet actif" data-onglet="questions" role="tab">Questions</button>
+        <button class="onglet" data-onglet="partie" role="tab" disabled title="Étape 2">Partie</button>
+        <button class="onglet" data-onglet="reglages" role="tab">Réglages</button>
+      </nav>
+      <button id="btn-deconnexion" class="btn btn-discret">Déconnexion</button>
+    </header>
+
+    <!-- Onglet Questions -->
+    <section id="onglet-questions" class="panneau">
+      <div class="grille-2">
+        <div class="carte">
+          <h2>Importer le tableau</h2>
+          <form id="form-gsheet" class="ligne-form">
+            <input type="url" id="url-gsheet" placeholder="Lien du Google Sheet" required>
+            <input type="text" id="onglet-gsheet" value="Questions" title="Nom de l'onglet" class="court">
+            <button class="btn btn-principal" type="submit">Importer</button>
+          </form>
+          <p class="discret">Le tableau doit être partagé en lecture à « Tous les utilisateurs disposant du lien ».</p>
+          <div class="ligne-form">
+            <label class="btn btn-secondaire fichier">Ou choisir un fichier xlsx / csv
+              <input type="file" id="fichier" accept=".xlsx,.xls,.csv,.ods" hidden>
+            </label>
+          </div>
+          <label class="case"><input type="checkbox" id="ecraser-corrections">
+            Écraser aussi les questions corrigées dans l'appli</label>
+          <div id="rapport-import" class="rapport" hidden></div>
+        </div>
+
+        <div class="carte">
+          <h2>Bilan</h2>
+          <div id="bilan-chiffres" class="chiffres"></div>
+          <div id="bilan-detail"></div>
+        </div>
+      </div>
+
+      <div class="carte">
+        <div class="entete-liste">
+          <h2>Questions <span id="nb-affichees" class="discret"></span></h2>
+          <div class="filtres">
+            <input type="search" id="f-texte" placeholder="Rechercher…">
+            <select id="f-phase"><option value="">Toutes les phases</option></select>
+            <select id="f-theme"><option value="">Tous les thèmes</option></select>
+            <select id="f-etat">
+              <option value="">Tous les états</option>
+              <option value="jouable">Jouables</option>
+              <option value="probleme">À compléter</option>
+              <option value="reserve">Réserves</option>
+              <option value="corrigee">Corrigées dans l'appli</option>
+              <option value="retiree">Retirées du tableau</option>
+            </select>
+            <button id="btn-recharger" class="btn btn-discret" title="Recharger depuis la base">↻</button>
+          </div>
+        </div>
+        <div class="table-defile">
+          <table id="table-questions">
+            <thead><tr>
+              <th>ID</th><th>Phase</th><th>Manche</th><th>Zone</th><th>Thème</th><th>Type</th>
+              <th>Question</th><th>Bonne réponse</th><th>État</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p id="liste-vide" class="discret" hidden>Aucune question. Importe le tableau pour commencer.</p>
+      </div>
+    </section>
+
+    <!-- Onglet Réglages -->
+    <section id="onglet-reglages" class="panneau" hidden>
+      <form id="form-code" class="carte carte-etroite">
+        <h2>Changer le code admin</h2>
+        <label>Nouveau code (6 caractères minimum)
+          <input type="password" id="nouveau-code" minlength="6" required autocomplete="new-password">
+        </label>
+        <button class="btn btn-principal" type="submit">Enregistrer</button>
+        <p id="msg-code" class="discret" hidden></p>
+      </form>
+    </section>
+  </div>
+
+  <!-- Fiche question -->
+  <dialog id="fiche">
+    <form id="form-fiche" method="dialog">
+      <div class="fiche-entete">
+        <h2>Question <span id="fiche-id"></span></h2>
+        <button type="button" class="btn btn-discret" data-fermer aria-label="Fermer">✕</button>
+      </div>
+      <div id="fiche-problemes" class="problemes"></div>
+      <div class="fiche-corps">
+        <div class="fiche-champs">
+          <label class="large">Question <textarea name="question" rows="3"></textarea></label>
+          <label class="large bonne">Bonne réponse <input name="bonne_reponse"></label>
+          <label>Mauvaise 1 <input name="mauvaise_1"></label>
+          <label>Mauvaise 2 <input name="mauvaise_2"></label>
+          <label>Mauvaise 3 <input name="mauvaise_3"></label>
+          <label class="large">Média (URL) <input name="media" type="url"></label>
+          <label>Phase du jeu <input name="phase_jeu"></label>
+          <label>Manche / Zone <input name="manche_zone"></label>
+          <label>Manche (auto) <input name="manche_auto" type="number" min="0"></label>
+          <label>Thème <input name="theme"></label>
+          <label>Programme <input name="programme"></label>
+          <label>Type <input name="type" list="types"></label>
+          <label>Difficulté <input name="difficulte"></label>
+          <label>Statut <input name="statut"></label>
+          <label class="case"><input type="checkbox" name="reserve"> Réserve</label>
+          <label class="large">Source <input name="source"></label>
+          <label class="large">Notes <textarea name="notes" rows="2"></textarea></label>
+        </div>
+        <div class="fiche-apercu">
+          <p class="discret">Aperçu</p>
+          <div id="apercu" class="apercu-qcm"></div>
+        </div>
+      </div>
+      <div class="fiche-pied">
+        <span id="msg-fiche" class="discret"></span>
+        <button type="button" class="btn btn-discret" data-fermer>Annuler</button>
+        <button type="button" id="btn-enregistrer" class="btn btn-principal">Enregistrer la correction</button>
+      </div>
+    </form>
+    <datalist id="types">
+      <option value="Texte"><option value="Image"><option value="Audio"><option value="Réplique"><option value="Vidéo">
+    </datalist>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+</body>
+</html>
