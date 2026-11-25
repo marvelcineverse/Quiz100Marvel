@@ -7,21 +7,21 @@ Pages web statiques + Supabase (base, temps réel). Aucune étape de compilation
 
 | Page | Pour qui | État |
 |---|---|---|
-| `admin.html` | Lucas : import des questions, aperçu, correction, pilotage | Étape 1 ✔ (pilotage : étape 2) |
-| `joueur.html` | Joueurs (code de partie, QCM) | Étape 2 |
-| `viewer.html` | Viewers (équipes, minuteur 15 s) | Étape 2 |
-| `diffusion.html` | Capture plein écran dans le logiciel de live | Étape 2 |
+| `admin.html` | Lucas : import, correction, création de partie, pilotage des questions | ✔ |
+| `joueur.html` | Joueurs : code de partie + nom, QCM sans limite de temps | ✔ |
+| `viewer.html` | Viewers : pseudo, équipe attribuée automatiquement, minuteur 15 s | ✔ |
+| `diffusion.html` | Capture plein écran (1920×1080) dans le logiciel de live | ✔ |
 
 ## Installation
 
-1. **Supabase** : ouvrir *SQL Editor*, coller `supabase/01_socle.sql`.
-   Avant de lancer le script, remplacer `A_CHANGER` par le code admin choisi. Puis *Run*.
-   Le script peut être relancé sans risque. Tous les objets sont préfixés `quiz_` :
+1. **Supabase** : ouvrir *SQL Editor*, coller `supabase/01_socle.sql`, puis `supabase/02_partie.sql`.
+   Avant de lancer le premier script, remplacer `A_CHANGER` par le code admin choisi. Puis *Run*.
+   Les scripts peuvent être relancés sans risque. Tous les objets sont préfixés `quiz_` :
    il peut cohabiter avec d'autres tables dans un projet existant.
 2. **Connexion** : dans `js/config.js`, renseigner l'URL du projet et la clé `anon public`
    (*Project Settings > API*). Ne jamais y mettre la clé `service_role`.
-3. **Hébergement** : GitHub Pages (*Settings > Pages > Deploy from branch > main / root*),
-   ou n'importe quel hébergeur de fichiers statiques.
+3. **Hébergement** : Vercel (preset *Other*, aucune commande de build, dossier racine).
+   Chaque envoi sur `main` republie le site.
 
 En local : `python3 -m http.server` à la racine, puis http://localhost:8000/admin.html.
 
@@ -47,9 +47,36 @@ Les liens de partage Google Drive sont convertis automatiquement pour l'affichag
 
 `exemples/questions_demo.csv` contient un jeu de questions de démonstration.
 
+## Déroulé d'une partie (Phase 1)
+
+1. Admin, onglet *Partie* : **Nouvelle partie** → un code de 4 lettres s'affiche.
+2. Les joueurs ouvrent `joueur.html`, saisissent le code et leur nom (5 maximum).
+   Les viewers ouvrent `viewer.html` et choisissent un pseudo.
+3. **Lancer la partie** : la liste des joueurs est figée, les viewers sont répartis
+   en équipes (une par joueur). Les nouveaux viewers rejoignent l'équipe la moins fournie.
+4. Pour chaque question : **Ouvrir** dans la liste → les joueurs répondent sans limite de temps
+   (fermeture automatique quand tous ont répondu), les viewers ont 15 s →
+   **Révéler** : points calculés automatiquement.
+   - Éclair et départage : seul le premier joueur qui répond juste marque (heure du serveur).
+   - Autres questions : tous les joueurs qui ont juste marquent.
+   - Points : Éclair 1, Identification 2, Pointue 3, Variante 3 (d'après la colonne *Manche / Zone*).
+   - Les viewers marquent les points de la question s'ils ont juste.
+5. **Annuler la question** retire les points qu'elle a donnés.
+6. **Écran : classement** affiche le classement sur l'écran de diffusion.
+
+Rechargement de page : joueurs et viewers retrouvent leur place et leur équipe (jeton mémorisé dans le navigateur).
+
+## Temps réel
+
+La base diffuse elle-même chaque changement d'état (`realtime.send`) sur deux canaux publics :
+`quiz-plateau` (admin, joueurs, diffusion) et `quiz-public` (viewers, ~3 messages par question).
+Si le temps réel est coupé, les écrans se resynchronisent automatiquement par interrogation
+(voyant orange dans le bandeau).
+
 ## Sécurité
 
 - Les tables ne sont pas lisibles depuis le navigateur (RLS sans policy) : les bonnes réponses ne fuient pas.
+- La bonne réponse n'est envoyée aux écrans qu'au moment de la révélation ; l'ordre des propositions est mélangé côté serveur.
 - Toute action admin passe par une fonction SQL qui vérifie le code admin.
 
 ## Après le live

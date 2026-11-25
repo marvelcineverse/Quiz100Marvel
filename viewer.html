@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Viewer · Quiz du Multivers</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/viewer.js"></script>
+</head>
+<body class="page-jeu">
+  <main id="ecran-rejoindre" class="centre" hidden>
+    <form id="form-rejoindre" class="carte carte-etroite">
+      <h1 class="logo">Quiz du <span>Multivers</span></h1>
+      <p class="discret">Joue avec le live : tu seras placé dans l'équipe d'un joueur.</p>
+      <label>Ton pseudo
+        <input id="pseudo" maxlength="24" autocomplete="nickname" required autofocus>
+      </label>
+      <button class="btn btn-principal" type="submit">Rejoindre</button>
+      <p id="erreur-rejoindre" class="erreur" hidden></p>
+    </form>
+  </main>
+
+  <div id="ecran-jeu" hidden>
+    <header class="bandeau">
+      <div>
+        <div id="moi-pseudo" class="bandeau-nom"></div>
+        <div id="moi-equipe" class="discret"></div>
+      </div>
+      <div class="bandeau-score"><b id="moi-score">0</b><span>pts</span></div>
+      <span id="voyant" class="voyant"></span>
+    </header>
+    <main id="zone" class="zone-jeu"></main>
+  </div>
+</body>
+</html>

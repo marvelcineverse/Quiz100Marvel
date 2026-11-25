@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script type="module" src="js/admin.js"></script>
+  <script type="module" src="js/admin-partie.js"></script>
 </head>
 <body class="page-admin">
 
@@ -30,9 +31,10 @@
       <h1 class="logo petit">Quiz du <span>Multivers</span></h1>
       <nav class="onglets" role="tablist">
         <button class="onglet actif" data-onglet="questions" role="tab">Questions</button>
-        <button class="onglet" data-onglet="partie" role="tab" disabled title="Étape 2">Partie</button>
+        <button class="onglet" data-onglet="partie" role="tab">Partie</button>
         <button class="onglet" data-onglet="reglages" role="tab">Réglages</button>
       </nav>
+      <span id="voyant" class="voyant" title="Temps réel"></span>
       <button id="btn-deconnexion" class="btn btn-discret">Déconnexion</button>
     </header>
 
@@ -92,6 +94,63 @@
           </table>
         </div>
         <p id="liste-vide" class="discret" hidden>Aucune question. Importe le tableau pour commencer.</p>
+      </div>
+    </section>
+
+    <!-- Onglet Partie -->
+    <section id="onglet-partie" class="panneau" hidden>
+      <div class="pilotage">
+        <div>
+          <div class="carte">
+            <h2>Partie</h2>
+            <div id="p-infos"></div>
+            <div class="boutons" style="margin-top:12px">
+              <button id="btn-nouvelle" class="btn btn-secondaire">Nouvelle partie</button>
+              <button id="btn-lancer" class="btn btn-principal">Lancer la partie</button>
+            </div>
+          </div>
+          <div class="carte">
+            <h2>Joueurs</h2>
+            <ul id="p-joueurs" class="liste-joueurs"></ul>
+            <p class="discret">Les joueurs rejoignent sur <b>joueur.html</b> avec le code. Le nombre à côté du nom = viewers de son équipe.</p>
+          </div>
+          <div class="carte">
+            <h2>Réglages</h2>
+            <form id="form-duree" class="ligne-form">
+              <label style="flex:1">Minuteur viewers (s)
+                <input id="duree-viewers" type="number" min="5" max="120">
+              </label>
+              <button class="btn btn-secondaire" style="align-self:end">OK</button>
+            </form>
+            <div class="boutons">
+              <a class="btn btn-discret" href="diffusion.html" target="_blank" rel="noopener">Ouvrir l'écran de diffusion</a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="carte tour-actuel">
+            <div class="entete-liste">
+              <h2 id="t-titre">Question en cours</h2>
+              <div class="boutons">
+                <button id="btn-ecran-question" class="btn btn-discret btn-petit">Écran : question</button>
+                <button id="btn-ecran-classement" class="btn btn-discret btn-petit">Écran : classement</button>
+              </div>
+            </div>
+            <div id="t-corps"></div>
+            <div class="boutons" style="margin-top:14px">
+              <button id="btn-fermer" class="btn btn-secondaire">Fermer les réponses</button>
+              <button id="btn-reveler" class="btn btn-principal">Révéler</button>
+              <button id="btn-annuler" class="btn btn-discret">Annuler la question</button>
+            </div>
+          </div>
+          <div class="carte">
+            <div class="entete-liste">
+              <h2>Questions à jouer</h2>
+              <select id="f-jouer"></select>
+            </div>
+            <div id="liste-a-jouer" class="liste-a-jouer"></div>
+          </div>
+        </div>
       </div>
     </section>
 

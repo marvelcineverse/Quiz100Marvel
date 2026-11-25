@@ -1,0 +1,66 @@
+/* Écran de diffusion : scène fixe 1920x1080 mise à l'échelle */
+body.page-diffusion { overflow: hidden; background: #000; }
+.scene {
+  position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px;
+  transform-origin: center center;
+  background: radial-gradient(ellipse at 50% 0%, #2a1a5e 0%, #0b0d17 60%), var(--fond);
+  display: grid; grid-template-rows: 110px 1fr 170px; padding: 0 70px; overflow: hidden;
+  font-size: 28px;
+}
+.d-haut { display: flex; align-items: center; gap: 40px; border-bottom: 2px solid rgba(255, 255, 255, .08); }
+.d-haut .logo { font-size: 54px; margin: 0; }
+.d-meta { flex: 1; text-align: center; font-size: 32px; letter-spacing: .06em; text-transform: uppercase; color: var(--texte-2); }
+.d-viewers { font-size: 28px; color: var(--texte-2); min-width: 220px; text-align: right; }
+
+.d-centre { display: flex; align-items: center; justify-content: center; min-height: 0; padding: 30px 0; }
+
+/* Accueil */
+.d-accueil { text-align: center; }
+.logo.geant { font-size: 190px; line-height: 1; }
+.d-sous-titre { font-size: 44px; color: var(--texte-2); margin: 10px 0 70px; }
+.d-invite { font-size: 46px; }
+.d-invite b { color: var(--rouge-clair); }
+
+/* Question */
+.d-question { width: 100%; display: grid; gap: 50px; align-items: center; }
+.d-question.avec-media { grid-template-columns: 0.9fr 1.1fr; }
+.d-media { display: flex; justify-content: center; }
+.d-media .media { max-height: 640px; max-width: 100%; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, .6); }
+.d-media .media-youtube { width: 100%; }
+.d-texte h1 { font-size: 64px; line-height: 1.15; margin: 0 0 50px; font-weight: 800; }
+.d-question:not(.avec-media) .d-texte h1 { text-align: center; }
+.page-diffusion .qcm { gap: 26px; }
+.page-diffusion .choix { font-size: 40px; padding: 28px 34px; border-radius: 18px; border-width: 3px; }
+.page-diffusion .choix b { font-size: 36px; min-width: 50px; height: 50px; }
+.page-diffusion .choix:disabled { opacity: 1; cursor: default; }
+.page-diffusion .choix.faux { opacity: .35; }
+.page-diffusion .choix .pct { font-size: 34px; }
+.page-diffusion .minuteur { height: 34px; margin-top: 44px; border-radius: 17px; }
+.page-diffusion .minuteur b { font-size: 24px; }
+.d-legende { color: var(--texte-2); font-size: 26px; margin: 22px 0 0; text-align: center; }
+audio.cache { display: none; }
+
+/* Joueurs */
+.d-joueurs { display: flex; gap: 30px; align-items: center; justify-content: center; border-top: 2px solid rgba(255, 255, 255, .08); }
+.d-joueur {
+  flex: 0 1 320px; background: var(--fond-2); border-radius: 18px; padding: 16px 24px;
+  border-top: 8px solid var(--c); display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center;
+}
+.d-joueur-nom { font-size: 34px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.d-joueur-score { font-size: 46px; font-weight: 800; color: var(--c); font-family: var(--police-titre); }
+.d-joueur .puce { grid-column: 1 / -1; font-size: 24px; color: var(--texte-2); }
+.d-joueur .puce.ok { color: var(--vert); }
+.d-joueur .puce.ko { color: var(--rouge-clair); }
+
+/* Classement */
+.d-classement { width: 100%; max-width: 1500px; }
+.d-classement h2 { font-family: var(--police-titre); font-size: 90px; text-transform: uppercase; text-align: center; margin: 0 0 40px; }
+.d-ligne { display: grid; grid-template-columns: 80px 320px 1fr 200px 200px; align-items: center; gap: 24px; font-size: 44px; margin-bottom: 26px; }
+.d-rang { font-family: var(--police-titre); font-size: 70px; color: var(--c); text-align: center; }
+.d-nom { font-weight: 800; }
+.d-barre { height: 40px; background: var(--fond-3); border-radius: 20px; overflow: hidden; }
+.d-barre span { display: block; height: 100%; background: var(--c); border-radius: 20px; transition: width .8s; }
+.d-pts { font-weight: 800; text-align: right; }
+.d-equipe { font-size: 26px; color: var(--texte-2); }
+
+.activer-son { position: fixed; bottom: 16px; right: 16px; z-index: 10; }

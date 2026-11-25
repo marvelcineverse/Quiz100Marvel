@@ -40,6 +40,7 @@ async function connecter(c) {
   stockage.ecrire(CLE_CODE, c);
   $('#ecran-connexion').hidden = true;
   $('#ecran-admin').hidden = false;
+  window.dispatchEvent(new CustomEvent('quiz:connecte', { detail: { code } }));
   await chargerQuestions();
 }
 
@@ -61,10 +62,13 @@ $('#btn-deconnexion').addEventListener('click', () => {
 });
 
 // ---------------------------------------------------------------- onglets
-document.querySelectorAll('.onglet').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.onglet').forEach(x => x.classList.toggle('actif', x === b));
-  document.querySelectorAll('.panneau').forEach(p => { p.hidden = p.id !== `onglet-${b.dataset.onglet}`; });
-}));
+function ouvrirOnglet(nom) {
+  document.querySelectorAll('.onglet').forEach(x => x.classList.toggle('actif', x.dataset.onglet === nom));
+  document.querySelectorAll('.panneau').forEach(p => { p.hidden = p.id !== `onglet-${nom}`; });
+  localEcrire('quiz_onglet_admin', nom);
+}
+document.querySelectorAll('.onglet').forEach(b => b.addEventListener('click', () => ouvrirOnglet(b.dataset.onglet)));
+if (['questions', 'partie', 'reglages'].includes(localLire('quiz_onglet_admin'))) ouvrirOnglet(localLire('quiz_onglet_admin'));
 
 // ---------------------------------------------------------------- import
 async function importer(lecture, source) {
@@ -118,6 +122,7 @@ $('#fichier').addEventListener('change', (e) => {
 // ---------------------------------------------------------------- données
 async function chargerQuestions() {
   questions = await rpc('quiz_admin_questions', { p_code: code }) ?? [];
+  window.dispatchEvent(new CustomEvent('quiz:questions', { detail: { questions } }));
   remplirFiltres();
   afficherBilan();
   afficherListe();
@@ -323,6 +328,7 @@ $('#form-code').addEventListener('submit', async (e) => {
     await rpc('quiz_admin_changer_code', { p_code: code, p_nouveau: nouveau });
     code = nouveau;
     stockage.ecrire(CLE_CODE, nouveau);
+    window.dispatchEvent(new CustomEvent('quiz:connecte', { detail: { code } }));
     msg.textContent = 'Code modifié.';
     $('#nouveau-code').value = '';
   } catch (ex) {
